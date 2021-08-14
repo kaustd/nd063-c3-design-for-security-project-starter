@@ -1,0 +1,33 @@
+#What findings were detected related to the brute force attack?
+
+i-0edcbf672280a9dc0 is performing SSH brute force attacks against 10.192.10.94. Brute force attacks are used to gain unauthorized access to your instance by guessing the SSH password
+
+This finding informs you that an EC2 instance in your AWS environment was involved in a brute force attack aimed at obtaining passwords to SSH services on Linux-based systems. This can indicate unauthorized access to your AWS resources.
+
+In our the severity is high because the EC2 instance is from our workload that is being used to perform the brute force attack.
+This finding's severity would have been low if a brute force attack is aimed at one of your EC2 instance but not from one of our EC2 instance.
+
+
+#Research the AWS Guard Duty documentation page and explain how GuardDuty may have detected this attack - i.e. what was its source of information?
+
+The Data Source is VPC flow logs
+
+If we investigate this with the Detective we get to know that Detective visualizes the CloudTrail and VPC flow data for the resources affected by this finding.
+
+GuardDuty finding 3cbda147fa446200a4117fdea6765ede 
+Investigate trends, new behaviors, and relationships involving the resources and actors present within the finding.
+
+EC2 instance i-0edcbf672280a9dc0 
+Investigate VPC flow traffic trends or view the activity details. Analyze CloudTrail activity associated with the EC2 Instance and quickly identify any new behavior.
+
+AWS account 487041092171 
+Investigate account level CloudTrail activity to identify unusual trends in volume, new activity, and location access patterns.
+
+IP address 35.173.182.241 
+Investigate CloudTrail activity originating from the IP address to see unusual trends in volume, new activity from this IP address, and determine which resources have used the IP address.
+
+IP address 10.192.11.241 
+Investigate CloudTrail activity originating from the IP address to see unusual trends in volume, new activity from this IP address, and determine which resources have used the IP address.
+
+IP address 10.192.10.94 
+Investigate CloudTrail activity originating from the IP address to see unusual trends in volume, new activity from this IP address, and determine which resources have used the IP address.

@@ -1,0 +1,95 @@
+++Ensure no security groups allow ingress from 0.0.0.0/0 to port 22
+
+Remediation : 
+
+Perform the following steps for each security group associated with a VPC.
+
+Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+In the left pane, choose Security groups.
+
+Select a security group.
+
+In the bottom section of the page, choose the Inbound Rules tab.
+
+Choose Edit rules.
+
+Identify the rule that allows access through port 22 and then choose the X to remove it.
+
+Choose Save rules.
+
+
+++Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible
+
+Remediation : 
+
+To remove public access for an Amazon S3 bucket
+
+Open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+
+Choose the name of the bucket where your CloudTrail are stored.
+
+Choose Permissions and then choose Public access settings.
+
+Choose Edit, select all four options, and then choose Save.
+
+If prompted, enter confirm and then choose Confirm.
+
+
+++Ensure the default security group of every VPC restricts all traffic
+
+
+Remediation
+
+To update the default security group to restrict all access
+
+Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+View the default security groups details to see the resources that are assigned to them.
+
+Create a set of least-privilege security groups for the resources.
+
+Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
+
+On the Amazon EC2 console, change the security group for the resources that use the default security groups to the least-privilege security group you created.
+
+For each default security group, choose the Inbound tab and delete all inbound rules.
+
+For each default security group, choose the Outbound tab and delete all outbound rules.
+
+For more information, see Working with Security Groups in the Amazon VPC User Guide.
+
+
+
+++Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389
+
+Remediation
+
+Perform the following steps for each security group associated with a VPC.
+
+Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+In the left pane, choose Security groups.
+
+Select a security group.
+
+In the bottom section of the page, choose the Inbound Rules tab.
+
+Choose Edit rules.
+
+Identify the rule that allows access through port 3389 and then choose the X to remove it.
+
+Choose Save rules.
+
+++IAM Password Policy Requires to be strong : Multiple Recommendations
+
+Configure a strong password policy for your users
+
+Rules for setting a password policy
+The IAM password policy does not apply to the AWS account root user password or IAM user access keys. If a password expires, the IAM user can't sign in to the AWS Management Console but can continue to use their access keys.
+
+When you create or change a password policy, most of the password policy settings are enforced the next time your users change their passwords. However, some of the settings are enforced immediately. For example:
+
+When the minimum length and character type requirements change, these settings are enforced the next time that your users change their passwords. Users are not forced to change their existing passwords, even if the existing passwords do not adhere to the updated password policy.
+
+When you set a password expiration period, the expiration period is enforced immediately. For example, assume that you set a password expiration period of 90 days. In that case, the password expires for all IAM users whose existing password is older than 90 days. Those users are required to change their password the next time that they sign in.

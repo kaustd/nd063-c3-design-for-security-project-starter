@@ -1,0 +1,27 @@
+# What additional architectural change can be made to reduce the internet-facing attack surface of the web application instance ?
+
+1) Change the IAM policy of the instance to reduce its privilege.
+
+2) S3 Block Public Access setting should be enabled at the bucket-level
+
+3) Security groups should only allow unrestricted incoming traffic for authorized ports
+
+4) SSH password login disabled for all instances
+
+5)  Consider VPC endpoints for Amazon S3 access
+
+A VPC endpoint for Amazon S3 is a logical entity within an virtual private cloud (VPC) that allows connectivity only to Amazon S3. You can use Amazon S3 bucket policies to control access to buckets from specific VPC endpoints, or specific VPCs. A VPC endpoint can help prevent traffic from potentially traversing the open internet and being subject to open internet environment.
+
+
+
+#Assuming the IAM permissions for the S3 bucket are still insecure, would creating VPC private endpoints for S3 prevent the unauthorized access to the secrets bucket.
+
+As long the IAM permission is insecure creating a VPC endpoint is not going to solve unauthorized access to our s3 bucket.
+
+An S3 VPC endpoint provides a way for an S3 request to be routed through to the Amazon S3 service, without having to connect a subnet to an internet gateway.
+
+
+
+# Will applying default encryption setting to the s3 buckets encrypt the data that already exists?
+
+No.Default bucket encryption doesn't change the encryption settings of existing objects.

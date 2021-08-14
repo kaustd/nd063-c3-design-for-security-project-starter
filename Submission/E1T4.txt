@@ -1,0 +1,16 @@
+Identify Bad Practices
+
+
+Item 1 : 
+
+Load Balancer named c1-web-service-alb is using a listener on port 80 named HTTP : 80
+We should not be allowing our public facing web service applications to be accessed through port 80.
+Rather the listener should be created for port 443 and HTTPS protocol.
+
+Item 2 :
+
+Security group for this application server-WebAppSG
+
+The inbound rules allows traffic from all IP addresses and all protocols. 
+Large port ranges, when open, expose the instances to unwanted attacks. More than that, they make traceability of vulnerabilities very difficult.
+We should limit the ingress and egress ports and protocol to a limited list that is required for our web application.

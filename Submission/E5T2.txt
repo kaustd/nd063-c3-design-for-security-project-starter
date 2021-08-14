@@ -1,0 +1,44 @@
+Identify tools that will allow you to do the following: 
+
+a. Scan infrastructure as code templates. 
+
+Bridgecrew : The Bridgecrew platform automates security engineering, allowing teams to identify and fix misconfigurations in run-time and build-time automatically.
+
+Example 1 :
+
+Ensure S3 Bucket BlockPublicPolicy is set to True
+Severity: 
+MEDIUM
+   |   
+Policy ID: BC_AWS_S3_20
+   |   
+Benchmarks: PCI-DSS V3.2.1(1.3, 2.2), FEDRAMP (MODERATE)(AC-3, AC-4, AC-6, AC-21(b), SC-7, SC-7(3))
+
+Example 2 : 
+
+Ensure AWS Security Group does not allow all traffic on SSH port 22
+
+Severity: 
+CRITICAL
+   |   
+Policy ID: BC_AWS_NETWORKING_1
+   |   
+Benchmarks: SOC2(CC6.3.3), PCI-DSS V3.2(2), HIPAA(164.312(E)(1)), NIST-800-53(AC-17, CA-3, CA-9, CM-3, SC-2), ISO27001(A.10.1.1
+
+
+b. Scan AMI’s or containers for OS vulnerabilities. 
+
+Tool is Anchore
+
+OWASP TOP 10 vulnerabilities 
+Common vulnerabilities and exposures or CVE findings
+Crypto Mining Checks
+
+
+c. Scan an AWS environment for cloud configuration vulnerabilities.
+
+Tool : AWS Security Hub
+Security groups should only allow unrestricted incoming traffic for authorized ports
+S3 Block Public Access setting should be enabled at the bucket-level
+S3 buckets should have server-side encryption enabled
+Security groups should not allow unrestricted access to ports with high risk

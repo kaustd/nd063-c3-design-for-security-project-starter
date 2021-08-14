@@ -1,0 +1,80 @@
+Question1 : As a Cloud Architect, you have been asked to apply security best practices to the environment so that it can withstand attacks and be more secure.
+
+++++Identify 2-3 changes that can be made to our environment to prevent an SSH brute force attack from the internet++++
+
+Answer :
+
+Change 1 
+
+To mitigate the issue, you can restrict SSH/RDP traffic for only a set of IP addresses authorized to access the Amazon EC2 instance.
+Security groups act as a firewall for associated instances, controlling both inbound and outbound traffic at the instance level. You must add rules to a security group to enable you to connect to your Linux instance from your IP address using SSH.
+
+Change 2
+
+Using Amazon GuardDuty and AWS Web Application Firewall to automatically block suspicious hosts
+
+A GuardDuty finding is raised with suspected malicious activity.
+A CloudWatch Event is configured to filter for GuardDuty Finding type.
+A Lambda function is invoked by the CloudWatch Event and parses the GuardDuty finding.
+State data for blocked hosts is stored in Amazon DynamoDB table. The Lambda function checks the state table for existing host entry.
+The Lambda function creates a Rule inside AWS WAF and in a VPC NACL.
+A notification email is sent via Amazon Simple Notification Service (SNS).
+A second Lambda function runs on a 5-minute recurring schedule and removes entries that are past the configurable retention period from WAF IPSets (which is a list that contains the blacklisted IPs or CIDRs), VPC NACLs, and the Dynamo DB table.
+
+Change 3 
+
+Set up a trusted IP address list for GuardDuty
+
+You can configure GuardDuty to use your own custom trusted IP list containing your allowed IP addresses for secure communication with your AWS infrastructure and applications.
+
+Add and activate a trusted IP list in GuardDuty
+
+Open the GuardDuty console.
+In the navigation pane, choose Lists.
+Choose Add a trusted IP list.
+For List name, enter a name that is meaningful to you.
+For Location, enter the location for your S3 bucket. For example, https://s3.amazonaws.com/bucket-name/file.txt.
+Choose the Format dropdown menu, and then choose your list's file type.
+Select the I agree check box, and then choose Add list.
+In Trusted IP lists, choose Active for your trusted IP list name.
+
+Question : Neither instance should have had access to the secret recipes bucket; even in the instance that API credentials were compromised how could we have prevented access to sensitive data?
+
+Suggestion 1 : 
+
+Ensure that your Amazon S3 buckets use the correct policies and are not publicly accessible
+
+Unless you explicitly require anyone on the internet to be able to read or write to your S3 bucket, you should ensure that your S3 bucket is not public.
+
+Identify Amazon S3 bucket policies that allow a wildcard identity such as Principal “*” (which effectively means “anyone”) or allows a wildcard action “*” (which effectively allows the user to perform any action in the Amazon S3 bucket).
+
+Similarly, note Amazon S3 bucket access control lists (ACLs) that provide read, write, or full-access to “Everyone” or “Any authenticated AWS user.”
+
+Suggestion 2 :
+
+Implement least privilege access
+
+When granting permissions, you decide who is getting what permissions to which Amazon S3 resources. You enable specific actions that you want to allow on those resources. Therefore you should grant only the permissions that are required to perform a task. Implementing least privilege access is fundamental in reducing security risk and the impact that could result from errors or malicious intent.
+
+Suggeston 3 : Consider VPC endpoints for Amazon S3 access
+
+A VPC endpoint for Amazon S3 is a logical entity within an virtual private cloud (VPC) that allows connectivity only to Amazon S3. You can use Amazon S3 bucket policies to control access to buckets from specific VPC endpoints, or specific VPCs. A VPC endpoint can help prevent traffic from potentially traversing the open internet and being subject to open internet environment.
+
+Suggestion4 : Consider encryption of data at rest
+
+Server-Side Encryption – Request Amazon S3 to encrypt your object before saving it on disks in its data centers and then decrypt it when you download the objects. Server-side encryption can help reduce risk to your data by encrypting the data with a key that is stored in a different mechanism than the mechanism that stores the data itself.
+
+Amazon S3 provides these server-side encryption options:
+
+Server-side encryption with Amazon S3 managed keys (SSE-S3).
+
+Server-side encryption with customer master keys stored in AWS Key Management Service (SSE-KMS).
+
+Server-side encryption with customer-provided keys (SSE-C).
+
+Client-Side Encryption – Encrypt data client-side and upload the encrypted data to Amazon S3. In this case, you manage the encryption process, the encryption keys, and related tools. As with server-side encryption, client-side encryption can help reduce risk by encrypting the data with a key that is stored in a different mechanism than the mechanism that stores the data itself.
+
+Suggestion 5 : Use IAM roles for applications and AWS services that require Amazon S3 access
+
+We should use an IAM role to manage temporary credentials for applications or services that need to access Amazon S3. When you use a role, you don't have to distribute long-term credentials (such as a user name and password or access keys) to an Amazon EC2 instance or AWS service such as AWS Lambda. The role supplies temporary permissions that applications can use when they make calls to other AWS resources.
+
